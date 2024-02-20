@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:project_discount/model.list.dart';
+import 'package:project_discount/time.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -21,42 +22,53 @@ class SingleItemPage extends StatelessWidget {
     final List<String> previewImage = model.items![index].previewImg!;
     return Scaffold(
       body: SafeArea(
-        child: ListView(
-          physics: const BouncingScrollPhysics(),
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: ComplicatedImageDemo(
-                image: previewImage,
-                collectionId: collectionId,
-                itemsId: itemId,
-                index: index,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Card(
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: Text(model.items![index].title!),
-                    ),
-                    ListTile(
-                      title: TextButton(
-                        onPressed: () async {
-                          if (await canLaunchUrl(
-                              Uri.parse(model.items![index].link!))) {
-                            launchUrlString(model.items![index].link!);
-                          }
-                        },
-                        child: const Text("Source"),
-                      ),
-                    ),
-                  ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: ListView(
+            physics: const BouncingScrollPhysics(),
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: ComplicatedImageDemo(
+                  image: previewImage,
+                  collectionId: collectionId,
+                  itemsId: itemId,
+                  index: index,
                 ),
               ),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Card(
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Text(
+                          model.items![index].title!.toUpperCase(),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      ListTile(
+                        title: const Text("Diskon sampai tanggal"),
+                        trailing: Text(Converter()
+                            .time(DateTime.parse(model.items![index].dateTo!))),
+                      ),
+                      ListTile(
+                        title: TextButton(
+                          onPressed: () async {
+                            if (await canLaunchUrl(
+                                Uri.parse(model.items![index].link!))) {
+                              launchUrlString(model.items![index].link!);
+                            }
+                          },
+                          child: const Text("Source"),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

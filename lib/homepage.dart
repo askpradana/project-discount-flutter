@@ -9,7 +9,7 @@ class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   String dateHelper(String text, String startOrEnd) {
-    String title = startOrEnd == "start" ? "Start from" : "Until";
+    String title = startOrEnd == "start" ? "Diskon mulai dari" : "Hingga";
     return "$title ${Converter().time(DateTime.parse(text))}";
   }
 
@@ -49,7 +49,7 @@ class HomePage extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              list.items![index].title!,
+                              list.items![index].title!.toUpperCase(),
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
